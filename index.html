@@ -3,193 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Альфа-Банк Помощник</title>
+    <title>Альфа-Банк | Официальный помощник</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        /* ===== ФИРМЕННЫЙ СТИЛЬ АЛЬФА-БАНКА ===== */
+        /* Основан на официальном дизайне alfabank.ru */
+        /* Цвета: #EF3124 (фирменный красный), белый, черный */
+        /* Шрифт: Roboto (современный без засечек) */
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        :root {
+            --alfa-red: #EF3124;
+            --alfa-red-dark: #B71C1C;
+            --alfa-red-light: rgba(239, 49, 36, 0.1);
+            --alfa-black: #000000;
+            --alfa-white: #FFFFFF;
+            --alfa-gray-100: #F8F9FA;
+            --alfa-gray-200: #E9ECEF;
+            --alfa-gray-300: #DEE2E6;
+            --alfa-gray-400: #CED4DA;
+            --alfa-gray-500: #ADB5BD;
+            --alfa-gray-600: #6C757D;
+            --alfa-gray-700: #495057;
+            --alfa-gray-800: #343A40;
+            --alfa-gray-900: #212529;
+            
+            --gradient-primary: linear-gradient(135deg, #EF3124 0%, #D32F2F 100%);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 12px rgba(239, 49, 36, 0.12);
+            --shadow-lg: 0 8px 24px rgba(239, 49, 36, 0.15);
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #333333);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--alfa-white);
+            color: var(--alfa-gray-900);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        
+
+        /* ===== ШАПКА КАК НА САЙТЕ АЛЬФА-БАНКА ===== */
         .header {
-            background: linear-gradient(135deg, #EF3124 0%, #B71C1C 100%);
-            padding: 16px;
-            text-align: center;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            font-size: 22px;
-            font-weight: 700;
-            color: white;
-            letter-spacing: 1px;
+            background: var(--alfa-white);
+            padding: 16px 20px;
+            position: relative;
+            z-index: 10;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--alfa-gray-200);
         }
-        
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Фирменный логотип как на сайте */
+        .alfa-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alfa-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--alfa-red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 22px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .alfa-logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            color: var(--alfa-gray-900);
+        }
+
+        .alfa-logo-text span {
+            color: var(--alfa-red);
+            font-weight: 900;
+        }
+
+        .header-badge {
+            background: var(--alfa-red-light);
+            color: var(--alfa-red);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(239, 49, 36, 0.2);
+        }
+
+        /* ===== ЧАТ С СООБЩЕНИЯМИ ===== */
         .chat-container {
             flex: 1;
-            padding: 16px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-height: calc(100vh - 180px);
+            gap: 16px;
+            background: var(--alfa-gray-100);
         }
-        
+
+        /* Фирменный стиль сообщений */
         .message {
-            max-width: 80%;
-            padding: 12px 16px;
+            max-width: 85%;
+            padding: 14px 18px;
             border-radius: 18px;
             word-wrap: break-word;
-            line-height: 1.4;
-            animation: fadeIn 0.3s;
+            line-height: 1.5;
+            font-size: 15px;
+            animation: messageSlide 0.3s ease;
+            position: relative;
+            box-shadow: var(--shadow-sm);
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
+        /* Сообщения пользователя (фирменный красный) */
         .user-message {
-            background-color: var(--tg-theme-button-color, #40a7e3);
-            color: var(--tg-theme-button-text-color, #ffffff);
+            background: var(--alfa-red);
+            color: white;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
+            box-shadow: var(--shadow-md);
         }
-        
+
+        .user-message a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* Сообщения бота (белые с красной полосой) */
         .bot-message {
-            background-color: var(--tg-theme-secondary-bg-color, #e9e9eb);
-            color: var(--tg-theme-text-color, #000000);
+            background: white;
+            color: var(--alfa-gray-900);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
+            border-left: 4px solid var(--alfa-red);
         }
-        
+
+        .bot-message strong {
+            color: var(--alfa-red);
+            font-weight: 700;
+        }
+
+        .bot-message a {
+            color: var(--alfa-red);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--alfa-red);
+        }
+
+        /* ===== КЛАВИАТУРА (КНОПКИ) ===== */
         .keyboard-container {
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            border-top: 1px solid rgba(0,0,0,0.1);
-            padding: 12px;
+            background: white;
+            border-top: 1px solid var(--alfa-gray-200);
+            padding: 16px;
             position: sticky;
             bottom: 0;
+            z-index: 10;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.02);
         }
-        
+
         .keyboard-row {
             display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 10px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
             justify-content: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        
-        .keyboard-btn {
+
+        /* Стиль кнопок как на сайте Альфа-Банка */
+        .alfa-btn {
             flex: 1;
             min-width: 140px;
-            padding: 14px 16px;
-            background: linear-gradient(135deg, #EF3124 0%, #B71C1C 100%);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 10px rgba(239, 49, 36, 0.3);
-        }
-        
-        .keyboard-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(239, 49, 36, 0.4);
-        }
-        
-        .keyboard-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .keyboard-btn.secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
-        }
-        
-        .keyboard-btn.support {
-            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
-        }
-        
-        .status {
-            text-align: center;
-            padding: 12px;
+            padding: 14px 20px;
+            background: white;
+            color: var(--alfa-gray-900);
+            border: 1.5px solid var(--alfa-gray-300);
+            border-radius: 40px;
             font-size: 14px;
-            color: var(--tg-theme-hint-color, #999999);
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            border-top: 1px solid rgba(0,0,0,0.05);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            text-transform: none;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .alfa-btn:hover {
+            border-color: var(--alfa-red);
+            color: var(--alfa-red);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .alfa-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Красная кнопка (основная) */
+        .alfa-btn-primary {
+            background: var(--alfa-red);
+            border-color: var(--alfa-red);
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+
+        .alfa-btn-primary:hover {
+            background: var(--alfa-red-dark);
+            border-color: var(--alfa-red-dark);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Кнопка поддержки (контурная) */
+        .alfa-btn-support {
+            background: white;
+            border-color: var(--alfa-red);
+            color: var(--alfa-red);
+            font-weight: 600;
+        }
+
+        .alfa-btn-support:hover {
+            background: var(--alfa-red-light);
+        }
+
+        /* Кнопка "Назад" (серая) */
+        .alfa-btn-secondary {
+            background: var(--alfa-gray-100);
+            border-color: var(--alfa-gray-300);
+            color: var(--alfa-gray-600);
+        }
+
+        .alfa-btn-secondary:hover {
+            background: var(--alfa-gray-200);
+            border-color: var(--alfa-gray-400);
+            color: var(--alfa-gray-800);
+        }
+
+        /* ===== КАРТОЧКИ ПРОДУКТОВ (СТИЛЬ АЛЬФЫ) ===== */
+        .product-highlight {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 8px 0;
+            border: 1px solid var(--alfa-gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .product-highlight-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--alfa-red);
+            margin-bottom: 4px;
+        }
+
+        .product-highlight-desc {
+            font-size: 14px;
+            color: var(--alfa-gray-600);
+        }
+
+        /* Бейджи */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--alfa-red-light);
+            color: var(--alfa-red);
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            margin-right: 6px;
+            border: 1px solid rgba(239, 49, 36, 0.2);
+        }
+
+        .badge-new {
+            background: var(--alfa-black);
+            color: white;
+        }
+
+        /* ===== СТАТУС БАР ===== */
+        .status-bar {
+            background: var(--alfa-gray-100);
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--alfa-gray-600);
+            border-top: 1px solid var(--alfa-gray-200);
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 480px) {
+            .alfa-btn {
+                min-width: 120px;
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+            
+            .message {
+                max-width: 90%;
+                font-size: 14px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+
+        /* Анимация загрузки (как на сайте) */
+        .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            margin-left: 8px;
         }
         
-        .alfa-badge {
-            background: rgba(239, 49, 36, 0.1);
-            color: #EF3124;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 8px;
+        .loading-dots span {
+            width: 4px;
+            height: 4px;
+            background: var(--alfa-red);
+            border-radius: 50%;
+            animation: pulse 1.4s infinite;
+        }
+        
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
     </style>
 </head>
 <body>
+    <!-- ШАПКА В СТИЛЕ АЛЬФА-БАНКА -->
     <div class="header">
-        🏦 АЛЬФА-БАНК ПОМОЩНИК
-    </div>
-    
-    <div class="chat-container" id="chatMessages">
-        <div class="bot-message">
-            👋 Здравствуйте! Я официальный помощник Альфа-Банка.
-        </div>
-        <div class="bot-message">
-            💫 Здесь вы можете оформить все продукты банка по специальным ссылкам.
-        </div>
-    </div>
-    
-    <div class="keyboard-container" id="keyboardContainer">
-        <div class="keyboard-row" id="keyboardRow">
-            <!-- Кнопки будут добавляться сюда динамически -->
+        <div class="header-content">
+            <div class="alfa-logo">
+                <div class="alfa-logo-icon">А</div>
+                <div class="alfa-logo-text">
+                    АЛЬФА-<span>БАНК</span>
+                </div>
+            </div>
+            <div class="header-badge">
+                официальный помощник
+            </div>
         </div>
     </div>
     
-    <div class="status" id="status">
-        🤖 Альфа-Банк | Официальный сервис
+    <!-- ЧАТ -->
+    <div class="chat-container" id="chatMessages"></div>
+    
+    <!-- КЛАВИАТУРА -->
+    <div class="keyboard-container">
+        <div class="keyboard-row" id="keyboardRow"></div>
+    </div>
+    
+    <!-- СТАТУС БАР -->
+    <div class="status-bar" id="status">
+        <span>Альфа-Банк</span>
+        <span class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
     </div>
 
     <script>
-        // Инициализация Telegram Web App
+        // ===== ИНИЦИАЛИЗАЦИЯ TELEGRAM =====
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
         
         // Данные поддержки
-        const SUPPORT_USERNAME = 'igor_alfabankk';
+        const SUPPORT_USERNAME = 'rydr3';
         
-        // Состояние бота
+        // Состояние
         let currentState = 'main_menu';
         
-        // Функция добавления сообщения
+        // ===== ФУНКЦИИ =====
         function addMessage(text, isUser = false) {
             const chat = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             
-            // Форматируем текст
-            let formattedText = text.replace(/\n/g, '<br>');
+            // Форматирование текста
+            let formattedText = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
             
-            // Подсвечиваем ссылки
+            // Ссылки
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             formattedText = formattedText.replace(urlRegex, url => 
-                `<a href="${url}" target="_blank" style="color: ${isUser ? '#fff' : '#EF3124'}; text-decoration: underline;">${url}</a>`
+                `<a href="${url}" target="_blank">🔗 ссылка</a>`
             );
             
             messageDiv.innerHTML = formattedText;
@@ -197,12 +443,11 @@
             chat.scrollTop = chat.scrollHeight;
         }
         
-        // Очистка клавиатуры
         function clearKeyboard() {
             document.getElementById('keyboardRow').innerHTML = '';
         }
         
-        // Показать главное меню (только Альфа-Банк и Поддержка)
+        // ===== ГЛАВНОЕ МЕНЮ =====
         function showMainMenu() {
             clearKeyboard();
             currentState = 'main_menu';
@@ -210,20 +455,20 @@
             const row = document.getElementById('keyboardRow');
             
             const buttons = [
-                { text: '🏦 АЛЬФА-БАНК', action: 'alfa', class: '' },
-                { text: '🆘 ПОДДЕРЖКА', action: 'support', class: 'support' }
+                { text: '🏦 АЛЬФА-БАНК', action: 'alfa', class: 'alfa-btn-primary' },
+                { text: '🆘 ПОДДЕРЖКА', action: 'support', class: 'alfa-btn-support' }
             ];
             
-            buttons.forEach(button => {
-                const btn = document.createElement('button');
-                btn.className = `keyboard-btn ${button.class}`;
-                btn.textContent = button.text;
-                btn.onclick = () => handleButtonClick(button.action);
-                row.appendChild(btn);
+            buttons.forEach(btn => {
+                const button = document.createElement('button');
+                button.className = `alfa-btn ${btn.class}`;
+                button.textContent = btn.text;
+                button.onclick = () => handleButtonClick(btn.action);
+                row.appendChild(button);
             });
         }
         
-        // Показать меню Альфа-Банка (ВСЕ ВКЛАДКИ)
+        // ===== МЕНЮ АЛЬФА-БАНКА (ВСЕ ПРОДУКТЫ) =====
         function showAlfaMenu() {
             clearKeyboard();
             currentState = 'alfa_menu';
@@ -231,28 +476,45 @@
             const row = document.getElementById('keyboardRow');
             
             const products = [
-                { text: '💰 СЧЕТ ДЛЯ ИНВЕСТИЦИЙ', link: 'https://alfa.me/5RI_Yr', emoji: '💰' },
-                { text: '📊 СЧЕТ ИП', link: 'https://alfa.me/bv8nch', emoji: '📊' },
-                { text: '💳 КРЕДИТНАЯ КАРТА', link: 'https://alfa.me/hTFvDV', emoji: '💳' },
-                { text: '💳 ДЕБЕТОВАЯ КАРТА', link: 'https://alfa.me/-EMo6O', emoji: '💳' },
-                { text: '⭐ ALFA ONLY', link: 'https://alfa.me/sZMzzo', emoji: '⭐' },
-                { text: '🏷️ ПЛАТЕЖНЫЙ СТИКЕР', link: 'https://alfa.me/8snsHH', emoji: '🏷️' },
-                { text: '✈️ ALFA TRAVEL', link: 'https://alfa.me/csys3Z', emoji: '✈️' },
-                { text: '🔙 ГЛАВНОЕ МЕНЮ', action: 'back_to_main', class: 'secondary' }
+                { text: '💰 ИНВЕСТИЦИИ', link: 'https://alfa.me/5RI_Yr', badge: 'ХИТ' },
+                { text: '📊 СЧЕТ ИП', link: 'https://alfa.me/bv8nch', badge: 'НОВОЕ' },
+                { text: '💳 КРЕДИТНАЯ', link: 'https://alfa.me/hTFvDV', badge: 'ХИТ' },
+                { text: '💳 ДЕБЕТОВАЯ', link: 'https://alfa.me/-EMo6O', badge: '' },
+                { text: '⭐ ALFA ONLY', link: 'https://alfa.me/sZMzzo', badge: 'PREMIUM' },
+                { text: '🏷️ СТИКЕР', link: 'https://alfa.me/8snsHH', badge: 'NEW' },
+                { text: '✈️ TRAVEL', link: 'https://alfa.me/csys3Z', badge: 'ХИТ' },
+                { text: '← НАЗАД', action: 'back_to_main', class: 'alfa-btn-secondary' }
             ];
             
             products.forEach(product => {
                 const btn = document.createElement('button');
-                btn.className = `keyboard-btn ${product.class || ''}`;
-                btn.textContent = product.emoji ? `${product.emoji} ${product.text}` : product.text;
+                btn.className = `alfa-btn ${product.class || ''}`;
+                
+                let btnText = product.text;
+                if (product.badge) {
+                    btnText = `✨ ${btnText}`;
+                }
+                btn.textContent = btnText;
                 
                 if (product.link) {
                     btn.onclick = () => {
-                        addMessage(product.text, true);
-                        addMessage(`✨ Открываю страницу оформления:\n${product.link}\n\n✅ Нажмите на ссылку выше, чтобы перейти на официальный сайт Альфа-Банка.`);
+                        addMessage(`📌 ${product.text}`, true);
+                        
+                        // Описания продуктов
+                        const desc = {
+                            '💰 ИНВЕСТИЦИИ': 'до 15% годовых',
+                            '📊 СЧЕТ ИП': 'первые 6 месяцев бесплатно',
+                            '💳 КРЕДИТНАЯ': 'до 1 000 000 ₽',
+                            '💳 ДЕБЕТОВАЯ': 'кэшбэк до 30%',
+                            '⭐ ALFA ONLY': 'премиум обслуживание',
+                            '🏷️ СТИКЕР': 'платите телефоном',
+                            '✈️ TRAVEL': 'кэшбэк на путешествия'
+                        }[product.text] || 'специальное предложение';
+                        
+                        addMessage(`🔴 **${product.text}**\n\n⭐ ${desc}\n🔗 Ссылка для оформления:\n${product.link}`, false);
                         tg.openLink(product.link);
                     };
-                } else if (product.action) {
+                } else {
                     btn.onclick = () => handleButtonClick(product.action);
                 }
                 
@@ -260,40 +522,39 @@
             });
         }
         
-        // Показать меню поддержки
+        // ===== МЕНЮ ПОДДЕРЖКИ =====
         function showSupportMenu() {
             clearKeyboard();
             currentState = 'support';
             
             const row = document.getElementById('keyboardRow');
             
-            // Сообщение о поддержке
-            addMessage('🆘 Служба поддержки', false);
-            addMessage(`👤 Наш специалист @${SUPPORT_USERNAME} готов помочь вам с:\n\n• Оформлением продуктов\n• Вопросами по картам\n• Технической поддержкой\n• Консультацией`, false);
+            addMessage('🆘 **СЛУЖБА ПОДДЕРЖКИ**', false);
+            addMessage(`👤 **@${SUPPORT_USERNAME}**\n\n• Оформление продуктов\n• Вопросы по картам\n• Консультации\n\n⏱ Ответ: до 5 минут`, false);
             
             const supportBtn = document.createElement('button');
-            supportBtn.className = 'keyboard-btn support';
-            supportBtn.textContent = '💬 НАПИСАТЬ В ПОДДЕРЖКУ';
+            supportBtn.className = 'alfa-btn alfa-btn-support';
+            supportBtn.textContent = '💬 НАПИСАТЬ';
             supportBtn.onclick = () => {
-                addMessage('💬 Написать в поддержку', true);
-                addMessage(`👤 Перехожу в чат с поддержкой: @${SUPPORT_USERNAME}\n\nЗадайте любой вопрос — ответим в течение 5 минут!`);
+                addMessage('📨 Написать в поддержку', true);
+                addMessage(`👤 Чат с @${SUPPORT_USERNAME}`, false);
                 tg.openTelegramLink(`https://t.me/${SUPPORT_USERNAME}`);
             };
             row.appendChild(supportBtn);
             
             const backBtn = document.createElement('button');
-            backBtn.className = 'keyboard-btn secondary';
-            backBtn.textContent = '🔙 ГЛАВНОЕ МЕНЮ';
+            backBtn.className = 'alfa-btn alfa-btn-secondary';
+            backBtn.textContent = '← НАЗАД';
             backBtn.onclick = () => handleButtonClick('back_to_main');
             row.appendChild(backBtn);
         }
         
-        // Обработка нажатий на кнопки
+        // ===== ОБРАБОТКА КНОПОК =====
         function handleButtonClick(action) {
             switch(action) {
                 case 'alfa':
-                    addMessage('🏦 Альфа-Банк', true);
-                    addMessage('🏦 **АЛЬФА-БАНК**\n\nВыберите продукт для оформления:\n\n💎 Все продукты с особыми условиями\n⚡️ Мгновенное оформление\n✅ Официальные ссылки', false);
+                    addMessage('🏦 АЛЬФА-БАНК', true);
+                    addMessage(`🔴 **АЛЬФА-БАНК**\n\nВыберите продукт:`, false);
                     showAlfaMenu();
                     break;
                     
@@ -303,57 +564,48 @@
                     break;
                     
                 case 'back_to_main':
-                    addMessage('🔙 Назад в главное меню', true);
-                    addMessage('🏦 **АЛЬФА-БАНК**\n\nВыберите нужный раздел:', false);
+                    addMessage('← Назад', true);
+                    addMessage(`🔴 **АЛЬФА-БАНК**\n\nЧем могу помочь?`, false);
                     showMainMenu();
                     break;
-                    
-                default:
-                    console.log('Unknown action:', action);
             }
         }
         
-        // ПРОДАЮЩЕЕ ПРИВЕТСТВИЕ
+        // ===== ПРИВЕТСТВИЕ В СТИЛЕ АЛЬФЫ =====
         function handleStart() {
             addMessage('/start', true);
-            addMessage(`🔥 **ЭКСКЛЮЗИВНЫЕ УСЛОВИЯ АЛЬФА-БАНКА** 🔥
+            
+            const welcomeText = `🔴 **АЛЬФА-БАНК**
 
-👋 Здравствуйте! Я ваш персональный помощник.
+👋 Здравствуйте! Я официальный помощник.
 
-🎁 **ТОЛЬКО СЕЙЧАС:**
-✅ Бесплатное обслуживание НАВСЕГДА
-✅ Кэшбэк до 30% на все покупки
-✅ 500 ₽ на кофе каждую неделю
-✅ Доступ в бизнес-залы аэропортов
+**ПРЕИМУЩЕСТВА:**
+• Бесплатное обслуживание
+• Кэшбэк до 30%
+• Премиум сервис
 
-💳 **Оформите прямо сейчас:**
-• 💰 Счет для инвестиций — доход до 15%
-• 📊 Счет для ИП — первые 6 месяцев 0 ₽
-• 💳 Кредитная карта — до 1 000 000 ₽
-• 💳 Дебетовая карта — кэшбэк 30%
-• ⭐ Alfa Only — премиум обслуживание
-• 🏷️ Платежный стикер — платите телефоном
-• ✈️ Alfa Travel — кэшбэк на путешествия
+**ПРОДУКТЫ:**
+💰 Инвестиции — до 15%
+📊 Счет ИП — 0 ₽ на 6 мес
+💳 Кредитка — до 1 млн ₽
+💳 Дебетовка — кэшбэк 30%
+⭐ Alfa Only — премиум
+🏷️ Стикер — оплата телефоном
+✈️ Travel — кэшбэк на отпуск
 
-⚡️ **Успейте! Предложения ограничены**
-
-👇 Выберите продукт 👇`);
+👇 **Выберите продукт** 👇`;
+            
+            addMessage(welcomeText, false);
             showMainMenu();
         }
         
-        // Инициализация
+        // ===== ЗАПУСК =====
         document.addEventListener('DOMContentLoaded', () => {
             handleStart();
-            
-            tg.sendData(JSON.stringify({ 
-                action: 'start',
-                user_id: tg.initDataUnsafe?.user?.id || 'unknown'
-            }));
-            
-            document.body.style.backgroundColor = tg.themeParams.bg_color || '#f5f5f5';
+            tg.sendData(JSON.stringify({ action: 'start' }));
         });
         
-        // Обработка кнопки назад
+        // ===== КНОПКА НАЗАД =====
         tg.onEvent('backButtonClicked', () => {
             if (currentState !== 'main_menu') {
                 handleButtonClick('back_to_main');
@@ -361,16 +613,6 @@
                 tg.close();
             }
         });
-        
-        tg.onEvent('mainButtonClicked', () => {
-            if (currentState !== 'main_menu') {
-                tg.BackButton.show();
-            } else {
-                tg.BackButton.hide();
-            }
-        });
-        
-        console.log('Альфа-Банк помощник запущен!');
     </script>
 </body>
 </html>
